@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+'-//Hibernate/Hibernate Mapping DTD 3.0//EN'
+'http://hibernate.sourceforge.net /hibernate-mapping-3.0.dtd'>
+
+
+<hibernate-mapping>
+	<class name="com.poppyenglish.User" table="user">
+		<id name="tel" column="tel" type="java.lang.String">
+			<!-- <generator class="native"/> -->
+		</id>
+		<property name="name" column="name" type="java.lang.String"></property>
+		<property name="password" column="password" type="java.lang.String"></property>
+		<property name="gender" column="gender" type="java.lang.String"></property>
+		<property name="honor" column="honor" type="java.lang.String"></property>
+		<property name="friend" column="friend" type="java.lang.String"></property>
+		<property name="comment" column="comment" type="java.lang.String"></property>
+	</class>
+</hibernate-mapping>
