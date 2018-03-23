@@ -38,11 +38,11 @@ public class RankServlet extends HttpServlet {
 		int myRank = userDao.findMyRank(tel, userList);
 		response.getOutputStream().write((myRank + "\n").getBytes("UTF-8"));
 		response.getOutputStream().write((userList.get(0).getName() + "\n").getBytes("UTF-8"));
-		response.getOutputStream().write((userList.get(0).getHonor() + "\n").getBytes("UTF-8"));
+		response.getOutputStream().write((userList.get(0).getTel() + "\n").getBytes("UTF-8"));
 		response.getOutputStream().write((userList.get(1).getName() + "\n").getBytes("UTF-8"));
-		response.getOutputStream().write((userList.get(1).getHonor() + "\n").getBytes("UTF-8"));
+		response.getOutputStream().write((userList.get(1).getTel() + "\n").getBytes("UTF-8"));
 		response.getOutputStream().write((userList.get(2).getName() + "\n").getBytes("UTF-8"));
-		response.getOutputStream().write((userList.get(2).getHonor() + "\n").getBytes("UTF-8"));
+		response.getOutputStream().write((userList.get(2).getTel() + "\n").getBytes("UTF-8"));
 	}
 
 	/**

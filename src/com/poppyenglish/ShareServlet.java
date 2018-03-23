@@ -53,6 +53,7 @@ public class ShareServlet extends HttpServlet {
 			while (rs.next()) {
 				User user = userDao.findByTel(rs.getString("you"));
 				response.getOutputStream().write((user.getName() + "\n").getBytes("UTF-8"));
+				response.getOutputStream().write((user.getTel() + "\n").getBytes("UTF-8"));
 				response.getOutputStream().write((rs.getString("time") + "\n").getBytes("UTF-8"));
 				response.getOutputStream().write((rs.getString("number") + "\n").getBytes("UTF-8"));
 				response.getOutputStream().write((rs.getString("up") + "\n").getBytes("UTF-8"));

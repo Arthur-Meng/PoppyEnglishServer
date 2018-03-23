@@ -13,7 +13,6 @@ public class User {
 	String[] friendall;
 	String friend;
 
-	
 	public String getComment() {
 		return comment;
 	}
@@ -77,7 +76,6 @@ public class User {
 		return friendall;
 	}
 
-	
 	public Boolean Iffrined(String searchName) {
 		if (this.getFriend() != null) {
 			String[] friendList = this.getFriendall();
