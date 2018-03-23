@@ -89,4 +89,24 @@
     <servlet-name>ShareServlet</servlet-name>
     <url-pattern>/share</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AddShareServlet</display-name>
+    <servlet-name>AddShareServlet</servlet-name>
+    <servlet-class>com.poppyenglish.AddShareServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddShareServlet</servlet-name>
+    <url-pattern>/addshare</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ReceiveImgServlet</display-name>
+    <servlet-name>ReceiveImgServlet</servlet-name>
+    <servlet-class>com.poppyenglish.ReceiveImgServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReceiveImgServlet</servlet-name>
+    <url-pattern>/img</url-pattern>
+  </servlet-mapping>
 </web-app>

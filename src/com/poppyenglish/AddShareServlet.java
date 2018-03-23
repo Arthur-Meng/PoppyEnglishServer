@@ -6,6 +6,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,15 +16,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class ShareServlet
+ * Servlet implementation class AddShareServlet
  */
-public class ShareServlet extends HttpServlet {
+public class AddShareServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public ShareServlet() {
+	public AddShareServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -37,34 +40,39 @@ public class ShareServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		response.setHeader("Content-type", "text/html;charset=UTF-8");
 		String tel = request.getParameter("tel");
+		String number = request.getParameter("number");
+		UserDoDAO userDao = new UserDoDAO();
+		User user = userDao.findByTel(tel);
+		String[] friends = user.getFriendall();
 
 		String url = "jdbc:mysql://127.0.0.1:3306/poppyenglish?useUnicode=true&characterEncoding=utf-8&useSSL=true";
 		String driver = "com.mysql.jdbc.Driver";
 		String sqluser = "root";
 		String psw = "";
-
+		String strsql = "insert into share(me,you,time,number,up) values(?,?,?,?,?)";
 		try {
 			Class.forName(driver);
 			Connection con = DriverManager.getConnection(url, sqluser, psw);
-			PreparedStatement pstmt = ((java.sql.Connection) con)
-					.prepareStatement("SELECT * FROM share where me='" + tel + "' order by time desc");
-			ResultSet rs = pstmt.executeQuery();
-			UserDoDAO userDao = new UserDoDAO();
-			while (rs.next()) {
-				User user = userDao.findByTel(rs.getString("you"));
-				response.getOutputStream().write((user.getName() + "\n").getBytes("UTF-8"));
-				response.getOutputStream().write((rs.getString("time") + "\n").getBytes("UTF-8"));
-				response.getOutputStream().write((rs.getString("number") + "\n").getBytes("UTF-8"));
-				response.getOutputStream().write((rs.getString("up") + "\n").getBytes("UTF-8"));
+			PreparedStatement pstmt = ((java.sql.Connection) con).prepareStatement(strsql);
+			for (int i = 0; i < friends.length; i++) {
+				if (!friends[i].equals("")) {
+					pstmt.setString(1, friends[i]);
+					pstmt.setString(2, tel);
+					SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					String time = df.format(new Date());
+					pstmt.setString(3, time);
+					pstmt.setString(4, number);
+					pstmt.setString(5, "0");
+					pstmt.executeUpdate();
+				}
 			}
 
-		} catch (ClassNotFoundException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			response.getOutputStream().write(("Error" + "\n").getBytes("UTF-8"));
 		}
+
 	}
 
 	/**
