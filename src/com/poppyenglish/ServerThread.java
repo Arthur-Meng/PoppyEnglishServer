@@ -82,11 +82,12 @@ public class ServerThread implements Runnable {
 								String enemyTel = content[2];
 								Socket pkSocket = (Socket) MyServer.urlTel.get(content[2]);
 								if (null == pkSocket) {
-									// 好友没正在匹配
+									// 好友没在线
 									outputStream.write((content[0] + ":noonline" + '\n').getBytes("utf-8"));
 									System.out.println(content[0] + " wantpk noonline");
 								} else {
 									if (MyServer.matchtedList.contains(pkSocket)) {
+										// 好友在忙
 										outputStream.write((content[0] + ":busy" + '\n').getBytes("utf-8"));
 										System.out.println(content[0] + " wantpk busy");
 									} else {
@@ -108,9 +109,9 @@ public class ServerThread implements Runnable {
 							OutputStream outputStream = new PrintStream(socket.getOutputStream());
 							if (matchtList.size() == 0) {
 								// 没有人在匹配时
+								MyServer.matchtList.add(socket);
 								outputStream.write(((content[0] + ":noothermatch" + '\n')).getBytes("utf-8"));
 								System.out.println(content[0] + ":noothermatch");
-								MyServer.matchtList.add(socket);
 							} else {
 								String enemyUrl = matchtList.get(0).getInetAddress().toString();
 								String enemyTel = (String) MyServer.urlTel.get(enemyUrl);
@@ -139,6 +140,8 @@ public class ServerThread implements Runnable {
 									System.out.println((content[0] + ":queID:" + queID));
 									enemyOutputStream.write((enemyTel + ":queID:" + queID + '\n').getBytes("utf-8"));
 									System.out.println(enemyTel + ":queID:" + queID);
+								}else{
+									outputStream.write((content[0] + "您已经再匹配队列了！"+ '\n').getBytes("utf-8"));
 								}
 							}
 
@@ -219,7 +222,7 @@ public class ServerThread implements Runnable {
 								// 两个加入matchtedList，matchtList少一
 								MyServer.matchtedList.add(socket);
 								MyServer.matchtedList.add(wantpkSocket);
-								System.out.println(content[2] + "wantpkenemy:" + content[0]);
+								System.out.println(content[2] + " want pk with friend " + content[0]);
 								// 返回同意的tel+tel+同意的tel+信息
 								User enemy = userDao.findByTel(content[2]);
 								outputStream.write((content[0] + ":tel:" + content[2] + ":" + enemy.getName() + '\n')
@@ -231,7 +234,7 @@ public class ServerThread implements Runnable {
 										.getBytes("utf-8"));
 								System.out.println(content[2] + ":tel:" + content[0] + ":" + my.getName());
 								// 发送两个人的题库
-								Thread.sleep(200);
+								Thread.sleep(400);
 								String queID = havequeID();
 								outputStream.write((content[0] + ":queID:" + queID + '\n').getBytes("utf-8"));
 								System.out.println(content[0] + ":queID:" + queID);
